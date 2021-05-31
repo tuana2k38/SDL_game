@@ -1,4 +1,3 @@
-﻿  MainObject.cpp
-  main.cpp
-  Generating Code...
+﻿  main.cpp
+D:\GAME_SDL\Dev_Game\SDL_game\Game_SDL\Game_SDL\main.cpp(60,27): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
   Game_SDL.vcxproj -> D:\GAME_SDL\Dev_Game\SDL_game\Game_SDL\Debug\Game_SDL.exe
