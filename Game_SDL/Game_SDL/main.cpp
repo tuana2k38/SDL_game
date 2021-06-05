@@ -36,9 +36,9 @@ int main(int arc, char* argv[])
 
 
 	/* process Main object */
-	MainObject human_object;
-	human_object.SetRect(100, 200);
-	bool ret = human_object.LoadImg("plane_fly.png");
+	MainObject plane_object;
+	plane_object.SetRect(100, 200);
+	bool ret = plane_object.LoadImg("plane_fly.png");
 	if (!ret)
 	{
 		return 0;
@@ -81,7 +81,7 @@ int main(int arc, char* argv[])
 				is_quit = true;
 				break;
 			}
-			human_object.HandleInputAction(g_even);
+			plane_object.HandleInputAction(g_even);
 		}
 
 		/*Handle background moving*/
@@ -98,20 +98,39 @@ int main(int arc, char* argv[])
 		{
 			SDLCommonFunc::ApplySurface(g_bkground, g_screen, bk_speed_x, 0);
 		}
-		human_object.Show(g_screen);
-		human_object.HandleMove();
+		
+		/*Main object process*/
 
-		/* Amo process */
-		human_object.ProcessAmo(g_screen);
+		plane_object.HandleMove();
+		plane_object.Show(g_screen);
+
+		/* main object make Amo process */
+		plane_object.ProcessAmo(g_screen);
+
 		/* Run threats */
 		for (int i = 0; i < NUM_THREATS; i++)
 		{
 			ThreatsObject* p_threat = (p_threats + i);
-			p_threat->Show(g_screen);
+
 			p_threat->HandleMove(SCREEN_WIDTH, SCREEN_HEIGHT);
+			p_threat->Show(g_screen);
 			p_threat->MakeAmo(g_screen, SCREEN_WIDTH, SCREEN_HEIGHT);
+			bool is_coll = SDLCommonFunc::CheckCollision(plane_object.GetRect(), p_threat->GetRect());
+			is_coll = SDLCommonFunc::CheckCollision(plane_object.GetRect(), p_threat->GetAmoList().at(0)->GetRect());
+			if (is_coll)
+			{
+				if (MessageBox(NULL, L"GAME OVER!", L"Info", MB_OK) == IDOK)
+				{
+					delete[] p_threats;
+					SDLCommonFunc::CleanUp();
+					SDL_Quit();
+
+					return 0;
+				}
+			}
 		}
 
+		/*update SCREEN*/
 		if (SDL_Flip(g_screen) == -1)
 			return 0;
 

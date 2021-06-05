@@ -69,8 +69,8 @@ void ThreatsObject::MakeAmo(SDL_Surface* des, const int& x_limit, const int& y_l
 		{
 			if (p_amo->get_is_move())
 			{
-				p_amo->Show(des);
 				p_amo->HandleMoveRtoL();
+				p_amo->Show(des);
 			}
 			else
 			{
